@@ -64,17 +64,21 @@ public class BazelPythonSemantics implements PythonSemantics {
   }
 
   @Override
+  public String getPythonBinary(RuleContext ruleContext, PyCommon common) {
+    BazelPythonConfiguration config = ruleContext.getFragment(BazelPythonConfiguration.class);
+
+    switch (common.getVersion()) {
+      case PY2: return config.getPython2Path();
+      case PY3: return config.getPython3Path();
+      default: throw new IllegalStateException();
+    }
+  }
+
+  @Override
   public void createExecutable(RuleContext ruleContext, PyCommon common,
       CcLinkParamsStore ccLinkParamsStore) {
     String main = common.determineMainExecutableSource();
-    BazelPythonConfiguration config = ruleContext.getFragment(BazelPythonConfiguration.class);
-    String pythonBinary;
-
-    switch (common.getVersion()) {
-      case PY2: pythonBinary = config.getPython2Path(); break;
-      case PY3: pythonBinary = config.getPython3Path(); break;
-      default: throw new IllegalStateException();
-    }
+    String pythonBinary = getPythonBinary(ruleContext, common);
 
     ruleContext.registerAction(new TemplateExpansionAction(
         ruleContext.getActionOwner(),

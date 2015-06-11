@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.google.devtools.build.lib.rules.python;
 
+import static com.google.devtools.build.lib.packages.ImplicitOutputsFunction.fromTemplates;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -39,6 +41,7 @@ import com.google.devtools.build.lib.collect.nestedset.NestedSetBuilder;
 import com.google.devtools.build.lib.collect.nestedset.Order;
 import com.google.devtools.build.lib.packages.BuildType;
 import com.google.devtools.build.lib.packages.Rule;
+import com.google.devtools.build.lib.packages.ImplicitOutputsFunction.SafeImplicitOutputsFunction;
 import com.google.devtools.build.lib.rules.cpp.CppFileTypes;
 import com.google.devtools.build.lib.rules.test.InstrumentedFilesCollector;
 import com.google.devtools.build.lib.rules.test.InstrumentedFilesCollector.LocalMetadataCollector;
@@ -59,6 +62,8 @@ import java.util.UUID;
  * A helper class for Python rules.
  */
 public final class PyCommon {
+
+  public static final SafeImplicitOutputsFunction PY_BINARY_DEPLOY_PAR = fromTemplates("%{name}.par");
 
   private static final LocalMetadataCollector METADATA_COLLECTOR = new LocalMetadataCollector() {
     @Override
