@@ -56,6 +56,11 @@ public interface PythonSemantics {
   Collection<Artifact> precompiledPythonFiles(
       RuleContext ruleContext, Collection<Artifact> sources, PyCommon common);
 
+  /*
+   * Returns the path of the python interpreter for the given python rule.
+   */
+  String getPythonBinary(RuleContext ruleContext, PyCommon common);
+
   /**
    * Returns a list of PathFragments for the import paths specified in the imports attribute.
    */

@@ -115,6 +115,16 @@ public class BazelPythonSemantics implements PythonSemantics {
     return ruleContext.getRelatedArtifact(executable.getRootRelativePath(), ".temp");
   }
 
+  public String getPythonBinary(RuleContext ruleContext, PyCommon common) {
+    BazelPythonConfiguration config = ruleContext.getFragment(BazelPythonConfiguration.class);
+
+    switch (common.getVersion()) {
+      case PY2: return config.getPython2Path();
+      case PY3: return config.getPython3Path();
+      default: throw new IllegalStateException();
+    }
+  }
+
   @Override
   public void createExecutable(
       RuleContext ruleContext,
@@ -122,16 +132,9 @@ public class BazelPythonSemantics implements PythonSemantics {
       CcLinkParamsStore ccLinkParamsStore,
       NestedSet<PathFragment> imports)
       throws InterruptedException {
-    String main = common.determineMainExecutableSource(/*withWorkspaceName=*/ true);
+    String main = common.determineMainExecutableSource();
+    String pythonBinary = getPythonBinary(ruleContext, common);
     Artifact executable = common.getExecutable();
-    BazelPythonConfiguration config = ruleContext.getFragment(BazelPythonConfiguration.class);
-    String pythonBinary;
-
-    switch (common.getVersion()) {
-      case PY2: pythonBinary = config.getPython2Path(); break;
-      case PY3: pythonBinary = config.getPython3Path(); break;
-      default: throw new IllegalStateException();
-    }
 
     if (!ruleContext.getConfiguration().buildPythonZip()) {
       ruleContext.registerAction(
