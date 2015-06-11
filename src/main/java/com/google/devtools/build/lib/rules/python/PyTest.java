@@ -37,7 +37,7 @@ public abstract class PyTest implements RuleConfiguredTargetFactory {
     PyCommon common = new PyCommon(ruleContext);
     common.initCommon(getDefaultPythonVersion(ruleContext));
 
-    RuleConfiguredTargetBuilder builder = PyBinary.init(ruleContext, semantics, common);
+    RuleConfiguredTargetBuilder builder = PyBinary.init(ruleContext, semantics, common, false);
     if (builder == null) {
       return null;
     }

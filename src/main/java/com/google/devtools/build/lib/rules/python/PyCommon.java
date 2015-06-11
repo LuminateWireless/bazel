@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.google.devtools.build.lib.rules.python;
 
+import static com.google.devtools.build.lib.packages.ImplicitOutputsFunction.fromTemplates;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -42,6 +44,7 @@ import com.google.devtools.build.lib.packages.BuildType;
 import com.google.devtools.build.lib.packages.Rule;
 import com.google.devtools.build.lib.packages.SkylarkClassObject;
 import com.google.devtools.build.lib.packages.SkylarkClassObjectConstructor;
+import com.google.devtools.build.lib.packages.ImplicitOutputsFunction.SafeImplicitOutputsFunction;
 import com.google.devtools.build.lib.rules.cpp.CppFileTypes;
 import com.google.devtools.build.lib.rules.test.InstrumentedFilesCollector;
 import com.google.devtools.build.lib.rules.test.InstrumentedFilesCollector.LocalMetadataCollector;
@@ -69,6 +72,7 @@ public final class PyCommon {
   public static final String PYTHON_SKYLARK_PROVIDER_NAME = "py";
   public static final String TRANSITIVE_PYTHON_SRCS = "transitive_sources";
   public static final String IS_USING_SHARED_LIBRARY = "uses_shared_libraries";
+  public static final SafeImplicitOutputsFunction PY_BINARY_DEPLOY_PAR = fromTemplates("%{name}.par");
 
   private static final LocalMetadataCollector METADATA_COLLECTOR = new LocalMetadataCollector() {
     @Override
