@@ -14,13 +14,18 @@
 package com.google.devtools.build.lib.rules.python;
 
 import com.google.devtools.build.lib.actions.Artifact;
+import com.google.devtools.build.lib.actions.Root;
 import com.google.devtools.build.lib.analysis.ConfiguredTarget;
+import com.google.devtools.build.lib.analysis.FilesToRunProvider;
+import com.google.devtools.build.lib.analysis.RuleConfiguredTarget;
 import com.google.devtools.build.lib.analysis.RuleConfiguredTarget.Mode;
 import com.google.devtools.build.lib.analysis.RuleConfiguredTargetBuilder;
 import com.google.devtools.build.lib.analysis.RuleContext;
 import com.google.devtools.build.lib.analysis.Runfiles;
 import com.google.devtools.build.lib.analysis.RunfilesProvider;
 import com.google.devtools.build.lib.analysis.RunfilesSupport;
+import com.google.devtools.build.lib.analysis.TransitiveInfoCollection;
+import com.google.devtools.build.lib.analysis.actions.SpawnAction;
 import com.google.devtools.build.lib.collect.nestedset.NestedSet;
 import com.google.devtools.build.lib.rules.RuleConfiguredTargetFactory;
 import com.google.devtools.build.lib.rules.cpp.CcLinkParams;
@@ -46,7 +51,7 @@ public abstract class PyBinary implements RuleConfiguredTargetFactory {
     PyCommon common = new PyCommon(ruleContext);
     common.initCommon(common.getDefaultPythonVersion());
 
-    RuleConfiguredTargetBuilder builder = init(ruleContext, createSemantics(), common);
+    RuleConfiguredTargetBuilder builder = init(ruleContext, createSemantics(), common, true);
     if (builder == null) {
       return null;
     }
@@ -54,7 +59,7 @@ public abstract class PyBinary implements RuleConfiguredTargetFactory {
   }
 
   static RuleConfiguredTargetBuilder init(RuleContext ruleContext, PythonSemantics semantics,
-      PyCommon common) throws InterruptedException {
+      PyCommon common, boolean create_par) throws InterruptedException {
     CcLinkParamsStore ccLinkParamsStore = initializeCcLinkParamStore(ruleContext);
 
     List<Artifact> srcs = common.validateSrcs();
@@ -102,12 +107,39 @@ public abstract class PyBinary implements RuleConfiguredTargetFactory {
     common.addCommonTransitiveInfoProviders(builder, semantics, common.getFilesToBuild());
 
     semantics.postInitBinary(ruleContext, runfilesSupport, common);
+
+    // Add action to create par for py_binary
+    if (create_par) {
+      addPlinkAction(ruleContext, semantics, common, runfilesSupport);
+    }
+
     return builder
         .setFilesToBuild(common.getFilesToBuild())
         .add(RunfilesProvider.class, runfilesProvider)
         .setRunfilesSupport(runfilesSupport, common.getExecutable())
         .add(CcLinkParamsProvider.class, new CcLinkParamsProvider(ccLinkParamsStore))
         .add(PythonImportsProvider.class, new PythonImportsProvider(imports));
+  }
+
+  private static void addPlinkAction(
+      RuleContext ruleContext, PythonSemantics semantics, PyCommon common, RunfilesSupport runfilesSupport)
+      throws InterruptedException {
+    FilesToRunProvider plinker =
+        ruleContext.getExecutablePrerequisite("$plink", RuleConfiguredTarget.Mode.HOST);
+    Artifact output = ruleContext.getImplicitOutputArtifact(PyCommon.PY_BINARY_DEPLOY_PAR);
+    String main = common.determineMainExecutableSource();
+    ruleContext.registerAction(new SpawnAction.Builder()
+            .addInput(runfilesSupport.getRunfilesMiddleman())
+            .addTransitiveInputs(common.getFilesToBuild())
+            .addOutput(output)
+            .setExecutable(plinker)
+            .addArguments(semantics.getPythonBinary(ruleContext, common),
+                          "--main-file", main,
+                          "--pkg-dir", runfilesSupport.getRunfilesDirectoryExecPath().toString(),
+                          "-o", output.getExecPathString())
+            .setProgressMessage("Creating " + output.prettyPrint())
+            .setMnemonic("Plink")
+            .build(ruleContext));
   }
 
   private static Runfiles collectCommonRunfiles(RuleContext ruleContext, PyCommon common,
