@@ -36,6 +36,7 @@ using blaze_util::pdie;
 using std::string;
 
 string GetOutputRoot() {
+#if 0
   char buf[2048];
   string base;
   const char* home = getenv("HOME");
@@ -56,6 +57,8 @@ string GetOutputRoot() {
   }
 
   return "/tmp";
+#endif
+  return "/usr/local/home";
 }
 
 void WarnFilesystemType(const string& output_base) {
