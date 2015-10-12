@@ -32,5 +32,5 @@ public final class Constants {
   public static final String ANDROID_DEFAULT_SDK = "//external:android/sdk";
 
   // Most other tools dependencies use this; we plan to split it into per-language repositories.
-  public static final String TOOLS_REPOSITORY = "@bazel_tools";
+  public static final String TOOLS_REPOSITORY = ""; // "@bazel_tools".toString();
 }
