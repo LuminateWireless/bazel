@@ -136,8 +136,8 @@ genrule(
     cmd = "$(location :package-bazel.sh) $@ " + ("" if embed else "''") + " $(SRCS)",
     tools = ["package-bazel.sh"],
 ) for suffix, embed in [
-    ("", True),
-    ("_notools", False),
+    ("", False),
+    ("_tools", True),
 ]]
 
 [genrule(

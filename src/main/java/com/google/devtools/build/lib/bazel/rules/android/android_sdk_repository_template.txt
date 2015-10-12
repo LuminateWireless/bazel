@@ -117,7 +117,7 @@ android_sdk(
     shrinked_android_jar = "platforms/android-%api_level%/android.jar",
     annotations_jar = "tools/support/annotations.jar",
     main_dex_classes = "build-tools/%build_tools_version%/mainDexClasses.rules",
-    apkbuilder = "@bazel_tools//third_party/java/apkbuilder:embedded_apkbuilder",
+    apkbuilder = "//third_party/java/apkbuilder:embedded_apkbuilder",
     zipalign = ":zipalign_binary",
     android_jack = ":empty",
     jack = ":fail",
