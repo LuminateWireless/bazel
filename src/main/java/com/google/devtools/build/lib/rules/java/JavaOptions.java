@@ -99,7 +99,7 @@ public class JavaOptions extends FragmentOptions {
   }
 
   @Option(name = "javabase",
-      defaultValue = "@bazel_tools//tools/jdk:jdk",
+      defaultValue = "//tools/jdk:jdk",
       category = "version",
       help = "JAVABASE used for the JDK invoked by Blaze. This is the "
           + "JAVABASE which will be used to execute external Java "
@@ -107,7 +107,7 @@ public class JavaOptions extends FragmentOptions {
   public String javaBase;
 
   @Option(name = "java_toolchain",
-      defaultValue = "@bazel_tools//tools/jdk:toolchain",
+      defaultValue = "//tools/jdk:toolchain",
       category = "version",
       converter = LabelConverter.class,
       help = "The name of the toolchain rule for Java.")
@@ -115,7 +115,7 @@ public class JavaOptions extends FragmentOptions {
 
   @Option(
     name = "host_java_toolchain",
-    defaultValue = "@bazel_tools//tools/jdk:toolchain",
+    defaultValue = "//tools/jdk:toolchain",
     category = "version",
     converter = LabelConverter.class,
     help = "The Java toolchain used to build tools that are executed during a build."
@@ -123,7 +123,7 @@ public class JavaOptions extends FragmentOptions {
   public Label hostJavaToolchain;
 
   @Option(name = "host_javabase",
-      defaultValue = "@bazel_tools//tools/jdk:jdk",
+      defaultValue = "//tools/jdk:jdk",
       category = "version",
       help = "JAVABASE used for the host JDK. This is the JAVABASE which is used to execute "
            + " tools during a build.")
@@ -224,49 +224,49 @@ public class JavaOptions extends FragmentOptions {
   public StrictDepsMode strictJavaDeps;
 
   @Option(name = "javabuilder_top",
-      defaultValue = "@bazel_tools//tools/jdk:JavaBuilder_deploy.jar",
+      defaultValue = "//tools/jdk:JavaBuilder_deploy.jar",
       category = "version",
       converter = LabelConverter.class,
       help = "Label of the filegroup that contains the JavaBuilder jar.")
   public Label javaBuilderTop;
 
   @Option(name = "singlejar_top",
-      defaultValue = "@bazel_tools//tools/jdk:SingleJar_deploy.jar",
+      defaultValue = "//tools/jdk:SingleJar_deploy.jar",
       category = "version",
       converter = LabelConverter.class,
       help = "Label of the filegroup that contains the SingleJar jar.")
   public Label singleJarTop;
 
   @Option(name = "genclass_top",
-      defaultValue = "@bazel_tools//tools/jdk:GenClass_deploy.jar",
+      defaultValue = "//tools/jdk:GenClass_deploy.jar",
       category = "version",
       converter = LabelConverter.class,
       help = "Label of the filegroup that contains the GenClass jar.")
   public Label genClassTop;
 
   @Option(name = "ijar_top",
-      defaultValue = "@bazel_tools//tools/jdk:ijar",
+      defaultValue = "//tools/jdk:ijar",
       category = "version",
       converter = LabelConverter.class,
       help = "Label of the filegroup that contains the ijar binary.")
   public Label iJarTop;
 
   @Option(name = "java_langtools",
-      defaultValue = "@bazel_tools" + DEFAULT_LANGTOOLS,
+      defaultValue = "" + DEFAULT_LANGTOOLS,
       category = "version",
       converter = LabelConverter.class,
       help = "Label of the rule that produces the Java langtools jar.")
   public Label javaLangtoolsJar;
 
   @Option(name = "javac_bootclasspath",
-      defaultValue = "@bazel_tools//tools/jdk:bootclasspath",
+      defaultValue = "//tools/jdk:bootclasspath",
       category = "version",
       converter = LabelConverter.class,
       help = "Label of the rule that produces the bootclasspath jars for javac to use.")
   public Label javacBootclasspath;
 
   @Option(name = "javac_extdir",
-      defaultValue = "@bazel_tools//tools/jdk:extdir",
+      defaultValue = "//tools/jdk:extdir",
       category = "version",
       converter = LabelConverter.class,
       help = "Label of the rule that produces the extdir for javac to use.")

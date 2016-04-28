@@ -245,7 +245,7 @@ public class BazelRuleClassProvider {
         .setConfigurationCollectionFactory(new BazelConfigurationCollection())
         .setPrelude("//tools/build_rules:prelude_bazel")
         .setRunfilesPrefix("")
-        .setToolsRepository("@bazel_tools")
+        .setToolsRepository("")
         .setPrerequisiteValidator(new BazelPrerequisiteValidator())
         .setSkylarkAccessibleJavaClasses(skylarkBuiltinJavaObects);
 
