@@ -255,7 +255,7 @@ public class AndroidConfiguration extends BuildConfiguration.Fragment {
     // Label of filegroup combining all Android tools used as implicit dependencies of
     // android_* rules
     @Option(name = "android_sdk",
-            defaultValue = "@bazel_tools//tools/android:sdk",
+            defaultValue = "//tools/android:sdk",
             category = "version",
             converter = LabelConverter.class,
             help = "Specifies Android SDK/platform that is used to build Android applications.")

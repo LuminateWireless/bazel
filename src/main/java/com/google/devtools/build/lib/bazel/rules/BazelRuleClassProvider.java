@@ -177,7 +177,7 @@ import java.io.IOException;
  * A rule class provider implementing the rules Bazel knows.
  */
 public class BazelRuleClassProvider {
-  public static final String TOOLS_REPOSITORY = "@bazel_tools";
+  public static final String TOOLS_REPOSITORY = ""; // "@bazel_tools";
 
   /** Used by the build encyclopedia generator. */
   public static ConfiguredRuleClassProvider create() {

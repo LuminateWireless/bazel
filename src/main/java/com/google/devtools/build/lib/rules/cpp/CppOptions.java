@@ -148,7 +148,7 @@ public class CppOptions extends FragmentOptions {
 
   @Option(
     name = "crosstool_top",
-    defaultValue = "@bazel_tools//tools/cpp:toolchain",
+    defaultValue = "//tools/cpp:toolchain",
     category = "version",
     converter = LabelConverter.class,
     help = "The label of the crosstool package to be used for compiling C++ code."

@@ -633,7 +633,7 @@ public final class BuildConfiguration {
 
     @Option(name = "coverage_support",
         converter = LabelConverter.class,
-        defaultValue = "@bazel_tools//tools/test:coverage_support",
+        defaultValue = "//tools/test:coverage_support",
         category = "testing",
         help = "Location of support files that are required on the inputs of every test action "
             + "that collects code coverage. Defaults to '//tools/test:coverage_support'.")
@@ -641,7 +641,7 @@ public final class BuildConfiguration {
 
     @Option(name = "coverage_report_generator",
         converter = LabelConverter.class,
-        defaultValue = "@bazel_tools//tools/test:coverage_report_generator",
+        defaultValue = "//tools/test:coverage_report_generator",
         category = "testing",
         help = "Location of the binary that is used to generate coverage reports. This must "
             + "currently be a filegroup that contains a single file, the binary. Defaults to "
