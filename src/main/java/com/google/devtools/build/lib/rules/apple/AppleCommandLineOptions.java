@@ -138,7 +138,7 @@ public class AppleCommandLineOptions extends FragmentOptions {
 
   @Option(
       name = "apple_crosstool_top",
-      defaultValue = "@bazel_tools//tools/cpp:toolchain",
+      defaultValue = "//tools/cpp:toolchain",
       category = "version",
       converter = LabelConverter.class,
       help = "The label of the crosstool package to be used in Apple and Objc rules and their"

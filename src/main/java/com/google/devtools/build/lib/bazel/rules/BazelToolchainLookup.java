@@ -61,11 +61,11 @@ public class BazelToolchainLookup extends ToolchainLookup {
   public BazelToolchainLookup() {
     super(
         ImmutableMap.<Label, Class<? extends BuildConfiguration.Fragment>>builder()
-            .put(Label.parseAbsoluteUnchecked("@bazel_tools//tools/cpp:lookup"),
+            .put(Label.parseAbsoluteUnchecked("//tools/cpp:lookup"),
                 CppConfiguration.class)
-            .put(Label.parseAbsoluteUnchecked("@bazel_tools//tools/jdk:lookup"),
+            .put(Label.parseAbsoluteUnchecked("//tools/jdk:lookup"),
                 Jvm.class)
-            .put(Label.parseAbsoluteUnchecked("@bazel_tools//tools/android:lookup"),
+            .put(Label.parseAbsoluteUnchecked("//tools/android:lookup"),
                 AndroidConfiguration.class)
             .build(),
         ImmutableMap.<Label, ImmutableMap<String, String>>of());

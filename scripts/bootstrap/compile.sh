@@ -202,7 +202,7 @@ if [ -z "${BAZEL_SKIP_JAVA_COMPILATION}" ]; then
   chmod u+w "${OUTPUT_DIR}/classes/com/google/devtools/build/lib/bazel/rules/tools.WORKSPACE"
   cat <<EOF >${OUTPUT_DIR}/classes/com/google/devtools/build/lib/bazel/rules/tools.WORKSPACE
 local_repository(name = 'bazel_tools', path = __workspace_dir__)
-bind(name = "cc_toolchain", actual = "@bazel_tools//tools/cpp:default-toolchain")
+bind(name = "cc_toolchain", actual = "//tools/cpp:default-toolchain")
 EOF
 
   create_deploy_jar "libblaze" "com.google.devtools.build.lib.bazel.BazelMain" \

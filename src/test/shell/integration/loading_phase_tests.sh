@@ -19,7 +19,7 @@
 #
 
 # Our tests use the static crosstool, so make it the default.
-add_to_bazelrc "build --crosstool_top=@bazel_tools//tools/cpp:default-toolchain"
+add_to_bazelrc "build --crosstool_top=//tools/cpp:default-toolchain"
 
 # Load the test setup defined in the parent directory
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
